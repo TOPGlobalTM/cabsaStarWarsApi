@@ -1,0 +1,25 @@
+<app-search
+    (searchClicked)="search($event)"
+></app-search>
+<h2>List</h2>
+<p *ngIf="loading">Loading...</p>
+<p *ngIf="response && ! response.results.length && ! loading">No results.</p>
+<div *ngIf="response && response.results.length">
+    <ul>
+        <li *ngFor="let item of response.results">
+            <button (click)="loadDetail(item.url)">
+                Detail
+            </button>
+            {{ item.name || item.title }}
+        </li>
+    </ul>
+    <p *ngIf="response">
+        Showing {{ response.results.length }} of {{ response.count }} results.
+    </p>
+    <app-detail
+        *ngIf="opened"
+        [url]="detailUrl"
+        (closeClicked)="closeDetail()"
+        (reloadClicked)="reloadDetail($event)"
+    ></app-detail>
+</div>
